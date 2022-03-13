@@ -7,7 +7,7 @@ class FileHandlerController
     # Params:
     #   path: location of the file. Set as defult to contact.csv to this assesment
     # Return:
-    #   Array: contians line by line of the CSV
+    #   Array: contains line by line of the CSV
     def readCSV(path = "userInput/contacts.csv")
         begin
             data = CSV.read(path, headers: true, header_converters: :symbol, converters: :all)

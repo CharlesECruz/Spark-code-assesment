@@ -23,14 +23,14 @@ def importUserFromCSV(path)
     _contacts
 end
 
-#  Print valid contacts: contacts completely populated and no duplicated
+#  Valid contacts: contacts completely populated and no duplicated
 def printValidContact(contacts)
     _validContacts = contacts.find_all{|_contact| _contact.errorDescription.empty?}
 
     _validContacts.each {|contact| puts("----------------\n#{contact.to_string}") }
     puts("\nThere are #{_validContacts.size} valid contacts")
 end
-#
+
 def report(contacts)
     puts("Total contacts: #{contacts.size}")
     duplicatesContacts = contacts.find_all{|_contact| _contact.errorDescription == "Duplicate"}
@@ -39,16 +39,16 @@ def report(contacts)
     puts("Total incomplete contacts: #{incompleteContacts.size}")
 end
 def mapQuestions(contacts)
-    puts("How did you hear about us?")
+    puts("Who replied to ""How did you hear about us?""")
     contacts.select{|row| row.how_did_you_hear_about_us && row.errorDescription.empty?}.each{|contact| puts("\t- #{contact.get_fullName}")}
-    puts("what is your budget?")
+    puts("Who replied to ""what is your budget?""")
     contacts.select{|row| row.what_is_your_budget && row.errorDescription.empty?}.each{|contact| puts("\t- #{contact.get_fullName}")}
-    puts("what_is_your_favourite_colo?")
+    puts("Who replied to ""what is your favourite color?""")
     contacts.select{|row| row.what_is_your_favourite_colo && row.errorDescription.empty?}.each{|contact| puts("\t- #{contact.get_fullName}")}
 end
 def invalidContact(contacts)
-    _invalitContact = contacts.find_all{|_contact| ![""].include?(_contact.errorDescription.to_s) }
-    _invalitContact.each{ |contact| puts("----------------\n#{contact.get_fullName} rejected: #{contact.errorDescription}")}
+    _invalitContacts = contacts.find_all{|_contact| ![""].include?(_contact.errorDescription.to_s) }
+    _invalitContacts.each{ |contact| puts("----------------\n#{contact.get_fullName} rejected: #{contact.errorDescription}")}
 end
 # 1. Import the contacts CSV (included). This can be in-memory, you do not need to create a database.
 @contacts = importUserFromCSV("userInput/contacts.csv")
