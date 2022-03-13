@@ -12,7 +12,8 @@ class Contact
         :date_added,
         :how_did_you_hear_about_us,
         :what_is_your_budget,
-        :what_is_your_favourite_colo, :errorDescription
+        :what_is_your_favourite_colo, 
+        :errorDescription
     )
     def initialize(hashUser)
         @first_name = hashUser[:first_name]
@@ -40,9 +41,14 @@ class Contact
             if (_attributeValue.nil? || _attributeValue.to_s.empty?) 
                 _errorDescription += "#{attribute.to_s} "
             end
-            _errorDescription = _errorDescription.size > 0 ? "Incomplete #{_errorDescription}" : ""
         end
+        _errorDescription = _errorDescription.size > 0 ? "Incomplete #{_errorDescription}" : ""
         _errorDescription
+
+    end
+
+    def get_fullName
+        "#{self.first_name} #{self.last_name}"
     end
     # Object printed format
     # return: String

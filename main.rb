@@ -38,12 +38,24 @@ def report(contacts)
     incompleteContacts = contacts.find_all{|_contact| !["", "Duplicate"].include?(_contact.errorDescription.to_s) }
     puts("Total incomplete contacts: #{incompleteContacts.size}")
 end
+def mapQuestions(contacts)
+    puts("How did you hear about us?")
+    contacts.select{|row| row.how_did_you_hear_about_us && row.errorDescription.empty?}.each{|contact| puts("\t- #{contact.get_fullName}")}
+    puts("what is your budget?")
+    contacts.select{|row| row.what_is_your_budget && row.errorDescription.empty?}.each{|contact| puts("\t- #{contact.get_fullName}")}
+    puts("what_is_your_favourite_colo?")
+    contacts.select{|row| row.what_is_your_favourite_colo && row.errorDescription.empty?}.each{|contact| puts("\t- #{contact.get_fullName}")}
+end
+def invalidContact(contacts)
+    _invalitContact = contacts.find_all{|_contact| ![""].include?(_contact.errorDescription.to_s) }
+    _invalitContact.each{ |contact| puts("----------------\n#{contact.get_fullName} rejected: #{contact.errorDescription}")}
+end
 # 1. Import the contacts CSV (included). This can be in-memory, you do not need to create a database.
 @contacts = importUserFromCSV("userInput/contacts.csv")
 # 2. List only the valid contact records (not duplicate or incomplete), with each 
 # contact appearing only once along with the answers they have most recently
 # added (if they have any answers at all).
-puts("VALID CONTACTS")
+puts("\nVALID CONTACTS")
 printValidContact(@contacts)
 # 3. Report
 #   - total contacts
@@ -52,4 +64,12 @@ printValidContact(@contacts)
 #     headers, excluding Q&A columns)
 puts("\nREPORT")
 report(@contacts)
+# 4. Map the questions in a way that each question can be associated with the
+#    contacts who have answered it.
+puts("\nMap question with contact")
+mapQuestions(@contacts)
 
+
+# 5. Return each invalid record with an error message stating why it was rejected.
+puts("\nInvalid record")
+invalidContact(@contacts)
